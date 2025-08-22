@@ -48,7 +48,11 @@ class Inventario(I_Inventario):
         else:
             print("El inventario está vacío.")
 
+    def aumentar(self, cantidad):
+        pass
 
+    def disminuir(self, cantidad):
+        pass
 
 
 
