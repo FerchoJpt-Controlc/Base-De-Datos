@@ -34,7 +34,7 @@ class Producto(I_Producto):
 
 class Inventario(I_Inventario):
     def __init__(self):
-        self.productos = {}
+        self.productos = {}  # Diccionario para guardar productos {IDproducto: Producto}
 
     def agregar_producto(self, producto: Producto):
         self.productos[producto.IDproducto] = producto
@@ -48,12 +48,12 @@ class Inventario(I_Inventario):
         else:
             print("El inventario está vacío.")
 
-    def aumentar(self, cantidad):
+    # Métodos abstractos requeridos
+    def aumentar_stock(self, cantidad):
         pass
 
-    def disminuir(self, cantidad):
+    def disminuir_stock(self, cantidad):
         pass
-
 
 
 
