@@ -29,8 +29,32 @@ class Producto(I_Producto):
     def __str__(self):
         return f"{self.nombre} (ID:{self.IDproducto}, Precio: {self.precio}, Cat:{self.IDcategoria})"
 
+
+
+
+class Inventario(I_Inventario):
+    def __init__(self):
+        self.productos = {}
+
+    def agregar_producto(self, producto: Producto):
+        self.productos[producto.IDproducto] = producto
+        print(f"Producto {producto.nombre} agregado al inventario.")
+
+    def mostrar_inventario(self):
+        if self.productos:
+            print("\n_- INVENTARIO -_")
+            for idp, p in self.productos.items():
+                print(p)
+        else:
+            print("El inventario está vacío.")
+
+
+
+
+
+
 def menu():
-    inventarios={}
+    inventario = Inventario()
 
     while True:
         print("\n==M E N U==")
@@ -49,17 +73,14 @@ def menu():
                     idcategoria = int(input("ID Categoría: "))
 
                     produ = Producto(idproducto, idcategoria, nombre, precio)
+                    inventario.agregar_producto(produ)
 
                     print("PRODUCTO REGISTRADO CON EXITO")
                 except ValueError:
                     print("ERROR...ENTRADA INVALIDA...")
 
             case "2":
-                if inventarios:
-                    print("\n_-INVENTARIO-_")
-
-                else:
-                    print("NO HAY PRODUCTOS REGISTRADOS")
+                inventario.mostrar_inventario()
 
             case "3":
                 print("ADIOS...Saliendo del sistema...")
