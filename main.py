@@ -36,9 +36,9 @@ class Categoria(I_Categoria):
 
 
 class Producto(I_Producto):
-    def __init__(self, IDproducto, IDcategoria, nombre, precio):
+    def __init__(self, IDproducto, categoria, nombre, precio):
         self.IDproducto = IDproducto
-        self.IDcategoria = IDcategoria
+        self.categoria = categoria
         self.nombre = nombre
         self.precio = precio
 
@@ -92,12 +92,15 @@ def menu():
             case "1":
                 try:
                     idproducto = int(input("ID Producto: "))
-                    nombre = input("Nombre: ")
+                    nombre = input("Nombre del producto: ")
                     precio = float(input("Precio: "))
                     idcategoria = int(input("ID Categoría: "))
+                    nombre_categoria = input("Nombre de la categoría: ")
 
-                    produ = Producto(idproducto, idcategoria, nombre, precio)
-                    inventario.agregar_producto(produ)
+                    categoria = Categoria(idcategoria, nombre_categoria)
+                    producto = Producto(idproducto, categoria, nombre, precio)
+
+                    inventario.agregar_producto(producto)
 
                     print("PRODUCTO REGISTRADO CON EXITO")
                 except ValueError:
