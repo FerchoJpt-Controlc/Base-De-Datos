@@ -14,6 +14,11 @@ class I_Inventario(ABC):
     def disminuir_stock(self, cantidad: int):
         pass
 
+class I_Categoria(ABC):
+    @abstractmethod
+    def obtener_nombre(self) -> str:
+        pass
+
 
 class Producto(I_Producto):
     def __init__(self, IDproducto, IDcategoria, nombre, precio):
@@ -34,7 +39,7 @@ class Producto(I_Producto):
 
 class Inventario(I_Inventario):
     def __init__(self):
-        self.productos = {}  # Diccionario para guardar productos {IDproducto: Producto}
+        self.productos = {}
 
     def agregar_producto(self, producto: Producto):
         self.productos[producto.IDproducto] = producto
@@ -48,7 +53,7 @@ class Inventario(I_Inventario):
         else:
             print("El inventario está vacío.")
 
-    # Métodos abstractos requeridos
+
     def aumentar_stock(self, cantidad):
         pass
 
