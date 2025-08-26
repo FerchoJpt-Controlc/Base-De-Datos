@@ -2,22 +2,37 @@ from abc import ABC, abstractmethod
 
 class I_Producto(ABC):
     @abstractmethod
-    def obtener_precio(self) -> float:
+    def obtener_precio(self):
         pass
 
 class I_Inventario(ABC):
     @abstractmethod
-    def aumentar_stock(self, cantidad: int):
+    def aumentar_stock(self, cantidad):
         pass
 
     @abstractmethod
-    def disminuir_stock(self, cantidad: int):
+    def disminuir_stock(self, cantidad):
         pass
 
 class I_Categoria(ABC):
     @abstractmethod
-    def obtener_nombre(self) -> str:
+    def obtener_nombre(self):
         pass
+
+
+
+
+class Categoria(I_Categoria):
+    def __init__(self, IDCategoria, nombre):
+        self.IDCategoria = IDCategoria
+        self.nombre = nombre
+
+    def obtener_nombre(self):
+        return self.nombre
+
+    def __str__(self):
+        return f"Categoria(ID:{self.IDCategoria}, Nombre:{self.nombre})"
+
 
 
 class Producto(I_Producto):
