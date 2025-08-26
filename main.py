@@ -36,7 +36,7 @@ class Categoria(I_Categoria):
 
 
 class Producto(I_Producto):
-    def __init__(self, IDproducto, categoria, nombre, precio):
+    def __init__(self, IDproducto, categoria: Categoria, nombre, precio):
         self.IDproducto = IDproducto
         self.categoria = categoria
         self.nombre = nombre
@@ -47,7 +47,7 @@ class Producto(I_Producto):
         return self.precio
 
     def __str__(self):
-        return f"{self.nombre} (ID:{self.IDproducto}, Precio: {self.precio}, Cat:{self.IDcategoria})"
+        return f"{self.nombre} (ID:{self.IDproducto}, Precio: {self.precio}, Cat:{self.categoria.obtener_nombre()})"
 
 
 
