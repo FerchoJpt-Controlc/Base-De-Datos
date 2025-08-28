@@ -58,3 +58,58 @@ class GestorEmpleados:
         return self.empleados.get(IDEmpleado, None)
 
 
+
+
+
+
+def menu_empleados():
+    gestor = GestorEmpleados()
+
+    while True:
+        print("\n=== MENÚ DE EMPLEADOS ===")
+        print("1. Registrar nuevo empleado")
+        print("2. Mostrar empleados")
+        print("3. Buscar empleado por ID")
+        print("4. Salir")
+
+        opcion = input("Seleccione una opción: ")
+
+        match opcion:
+            case "1":
+                try:
+                    idempleado = int(input("ID Empleado: "))
+                    nombre = input("Nombre: ")
+                    direccion = input("Dirección: ")
+                    telefono = input("Teléfono: ")
+                    correo = input("Correo: ")
+                    puesto = input("Puesto: ")
+
+                    empleado = Empleado(idempleado, nombre, direccion, telefono, correo, puesto)
+                    gestor.registrar_empleado(empleado)
+
+                except ValueError:
+                    print("ERROR... Entrada inválida...")
+
+            case "2":
+                gestor.mostrar_empleados()
+
+            case "3":
+                try:
+                    idempleado = int(input("Ingrese ID del empleado a buscar: "))
+                    empleado = gestor.buscar_empleado(idempleado)
+                    if empleado:
+                        print(empleado)
+                    else:
+                        print("Empleado no encontrado.")
+                except ValueError:
+                    print("Entrada inválida.")
+
+            case "4":
+                print("Saliendo del submenú de empleados...")
+                break
+
+            case _:
+                print("Opción inválida, intente de nuevo.")
+
+
+    menu_empleados()
