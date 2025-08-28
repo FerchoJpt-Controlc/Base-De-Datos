@@ -125,7 +125,8 @@ class menu:
         print("\n==M E N U==")
         print("1. Ingresar nuevo producto")
         print("2. Mostrar inventario")
-        print("3. Salir")
+        print("3. Empleados")
+        print("4. Salir")
 
         opcion = input("Seleccione una opcion: ")
 
@@ -151,7 +152,9 @@ class menu:
                 inventario.mostrar_todos()
 
             case "3":
-                print("ADIOS...Saliendo del sistema...")
+                empleados.menu_empleados()
+
+            case "4":
                 break
 
             case _:
