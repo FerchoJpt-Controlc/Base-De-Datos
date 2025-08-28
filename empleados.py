@@ -26,7 +26,7 @@ class GestorEmpleados:
                     if not linea:
                         continue
                     partes = linea.split(":")
-                    if len(partes) != 7:
+                    if len(partes) != 6:
                         continue
                     IDEmpleado, Nombre, Direccion, Telefono, Correo, Puesto = partes
                     empleado = Empleado(int(IDEmpleado), Nombre, Direccion, Telefono, Correo, Puesto)
@@ -112,4 +112,3 @@ def menu_empleados():
                 print("Opción inválida, intente de nuevo.")
 
 
-    menu_empleados()
