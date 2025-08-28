@@ -18,7 +18,9 @@ class I_Categoria(ABC):
     @abstractmethod
     def obtener_nombre(self):
         pass
+#inicio de prueba de adaptacion para guardar los datos en txt
 
+#fin prueba
 
 
 
@@ -43,6 +45,8 @@ class Producto(I_Producto):
         self.precio = precio
 
 
+
+
     def obtener_precio(self):
         return self.precio
 
@@ -54,12 +58,67 @@ class Producto(I_Producto):
 
 class Inventario(I_Inventario):
     def __init__(self):
-        self.productos = {}
+        self.productos: dict[int, Producto] = {}
+        self.cargar_productos()
+
+    def cargar_productos(self):
+        try:
+            with open("PRODUCTOS.txt", "r", encoding="utf-8") as archivo:
+                for linea in archivo:
+                    linea = linea.strip()
+                    if not linea:
+                        continue
+                    partes = linea.split(":")
+                    if len(partes) != 4:
+
+                        continue
+                    IDproducto_str, nombre, categoria_nombre, precio_str = partes
+                    try:
+                        IDproducto = int(IDproducto_str)
+                        precio = float(precio_str)
+                    except ValueError:
+                        continue
+
+                    categoria = Categoria(0, categoria_nombre)
+                    producto = Producto(IDproducto, categoria, nombre, precio)
+                    self.productos[IDproducto] = producto
+            print("Productos importados desde PRODUCTOS.txt")
+        except FileNotFoundError:
+            print("No existe el archivo PRODUCTOS.txt, se creará uno nuevo al guardar.")
+
+    def guardar_productos(self):
+        with open("PRODUCTOS.txt", "w", encoding="utf-8") as archivo:
+            for producto in self.productos.values():
+                archivo.write(
+                    f"{producto.IDproducto}:{producto.nombre}:{producto.categoria.obtener_nombre()}:{producto.precio}\n"
+                )
 
     def agregar_producto(self, producto: Producto):
         self.productos[producto.IDproducto] = producto
-        print(f"Producto {producto.nombre} agregado al inventario.")
+        self.guardar_productos()
+        print(f"Producto ID:{producto.IDproducto} agregado y guardado correctamente.")
 
+    def mostrar_todos(self):
+        if not self.productos:
+            print("No hay productos registrados.")
+            return
+        print("\nLista de productos:")
+        for producto in self.productos.values():
+            print(f" - {producto}")
+
+
+
+    """""
+    def __init__(self):
+        self.productos = {}
+#i
+    def agregar_producto(self, producto: Producto):
+        self.productos[producto.IDproducto] = producto
+        print(f"Producto {producto.nombre} agregado al inventario.")
+#f
+    """
+#i
+    """
     def mostrar_inventario(self):
         if self.productos:
             print("\n_- INVENTARIO -_")
@@ -67,7 +126,8 @@ class Inventario(I_Inventario):
                 print(p)
         else:
             print("El inventario está vacío.")
-
+    """
+#f
 
     def aumentar_stock(self, cantidad):
         pass
@@ -77,7 +137,7 @@ class Inventario(I_Inventario):
 
 
 
-def menu():
+class menu:
     inventario = Inventario()
 
     while True:
@@ -94,20 +154,21 @@ def menu():
                     idproducto = int(input("ID Producto: "))
                     nombre = input("Nombre del producto: ")
                     precio = float(input("Precio: "))
-                    idcategoria = int(input("ID Categoría: "))
+                    idcategoria = int(input("ID Categoría (numérico, puede ser 0 si no aplica): "))
                     nombre_categoria = input("Nombre de la categoría: ")
 
                     categoria = Categoria(idcategoria, nombre_categoria)
                     producto = Producto(idproducto, categoria, nombre, precio)
 
+                    # Antes se llamaba inventario.agregar_productos(producto, categoria) (MAL)
                     inventario.agregar_producto(producto)
 
-                    print("PRODUCTO REGISTRADO CON EXITO")
+                    print("PRODUCTO REGISTRADO CON ÉXITO")
                 except ValueError:
-                    print("ERROR...ENTRADA INVALIDA...")
+                    print("ERROR... ENTRADA INVÁLIDA...")
 
             case "2":
-                inventario.mostrar_inventario()
+                inventario.mostrar_todos()
 
             case "3":
                 print("ADIOS...Saliendo del sistema...")
