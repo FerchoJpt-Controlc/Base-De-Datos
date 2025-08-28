@@ -1,4 +1,5 @@
 import compra
+import empleados
 
 from abc import ABC, abstractmethod
 
