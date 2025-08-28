@@ -1,3 +1,5 @@
+import compra
+
 from abc import ABC, abstractmethod
 
 class I_Producto(ABC):
@@ -107,28 +109,6 @@ class Inventario(I_Inventario):
             print(f" - {producto}")
 
 
-
-    """""
-    def __init__(self):
-        self.productos = {}
-#i
-    def agregar_producto(self, producto: Producto):
-        self.productos[producto.IDproducto] = producto
-        print(f"Producto {producto.nombre} agregado al inventario.")
-#f
-    """
-#i
-    """
-    def mostrar_inventario(self):
-        if self.productos:
-            print("\n_- INVENTARIO -_")
-            for idp, p in self.productos.items():
-                print(p)
-        else:
-            print("El inventario está vacío.")
-    """
-#f
-
     def aumentar_stock(self, cantidad):
         pass
 
@@ -160,7 +140,6 @@ class menu:
                     categoria = Categoria(idcategoria, nombre_categoria)
                     producto = Producto(idproducto, categoria, nombre, precio)
 
-                    # Antes se llamaba inventario.agregar_productos(producto, categoria) (MAL)
                     inventario.agregar_producto(producto)
 
                     print("PRODUCTO REGISTRADO CON ÉXITO")
