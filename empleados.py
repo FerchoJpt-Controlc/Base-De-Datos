@@ -10,5 +10,5 @@ class Empleado:
     def __str__(self):
         return (f"Empleado(ID:{self.IDEmpleado}, Nombre:{self.Nombre}, Dirección:{self.Direccion}, Teléfono:{self.Telefono}, Correo:{self.Correo}, Puesto:{self.Puesto})")
 
-
+print()
 
