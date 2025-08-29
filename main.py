@@ -1,6 +1,8 @@
 import compra
 import empleados
 import proveidores
+import venta
+import clientes
 
 from abc import ABC, abstractmethod
 
