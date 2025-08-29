@@ -41,12 +41,12 @@ class Categoria(I_Categoria):
 
 
 class Producto(I_Producto):
-    def __init__(self, IDproducto, categoria: Categoria, nombre, precio):
+    def __init__(self, IDproducto, categoria: Categoria, nombre, precio, stock=0):
         self.IDproducto = IDproducto
         self.categoria = categoria
         self.nombre = nombre
         self.precio = precio
-
+        self.stock = stock
 
 
 
@@ -54,7 +54,7 @@ class Producto(I_Producto):
         return self.precio
 
     def __str__(self):
-        return f"{self.nombre} (ID:{self.IDproducto}, Precio: {self.precio}, Cat:{self.categoria.obtener_nombre()})"
+        return f"{self.nombre} (ID:{self.IDproducto}, Precio: {self.precio}, Cat:{self.categoria.obtener_nombre()}, Stock:{self.stock})"
 
 
 
@@ -75,15 +75,16 @@ class Inventario(I_Inventario):
                     if len(partes) != 4:
 
                         continue
-                    IDproducto_str, nombre, categoria_nombre, precio_str = partes
+                    IDproducto_str, nombre, categoria_nombre, precio_str, stock_str = partes
                     try:
                         IDproducto = int(IDproducto_str)
                         precio = float(precio_str)
+                        stock = int(stock_str)
                     except ValueError:
                         continue
 
                     categoria = Categoria(0, categoria_nombre)
-                    producto = Producto(IDproducto, categoria, nombre, precio)
+                    producto = Producto(IDproducto, categoria, nombre, precio, stock)
                     self.productos[IDproducto] = producto
             print("Productos importados desde PRODUCTOS.txt")
         except FileNotFoundError:
@@ -93,7 +94,7 @@ class Inventario(I_Inventario):
         with open("PRODUCTOS.txt", "w", encoding="utf-8") as archivo:
             for producto in self.productos.values():
                 archivo.write(
-                    f"{producto.IDproducto}:{producto.nombre}:{producto.categoria.obtener_nombre()}:{producto.precio}\n"
+                    f"{producto.IDproducto}:{producto.nombre}:{producto.categoria.obtener_nombre()}:{producto.precio}:{producto.stock}\n"
                 )
 
     def agregar_producto(self, producto: Producto):
@@ -110,11 +111,26 @@ class Inventario(I_Inventario):
             print(f" - {producto}")
 
 
-    def aumentar_stock(self, cantidad):
-        pass
+    def aumentar_stock(self, IDProducto, cantidad):
+        if IDProducto in self.productos:
+            self.productos[IDProducto].stock += cantidad
+            self.guardar_productos()
+            print(
+                f"Stock del producto {IDProducto} aumentado en {cantidad}. Nuevo stock: {self.productos[IDProducto].stock}")
+        else:
+            print("Producto no encontrado en inventario.")
 
-    def disminuir_stock(self, cantidad):
-        pass
+    def disminuir_stock(self, IDProducto, cantidad):
+        if IDProducto in self.productos:
+            if self.productos[IDProducto].stock >= cantidad:
+                self.productos[IDProducto].stock -= cantidad
+                self.guardar_productos()
+                print(
+                    f"Stock del producto {IDProducto} disminuido en {cantidad}. Nuevo stock: {self.productos[IDProducto].stock}")
+            else:
+                print("Stock insuficiente para realizar la operación.")
+        else:
+            print("Producto no encontrado en inventario.")
 
 
 
@@ -126,7 +142,8 @@ class menu:
         print("1. Ingresar nuevo producto")
         print("2. Mostrar inventario")
         print("3. Empleados")
-        print("4. Salir")
+        print("4. Compras")
+        print("5. Salir")
 
         opcion = input("Seleccione una opcion: ")
 
@@ -136,11 +153,13 @@ class menu:
                     idproducto = int(input("ID Producto: "))
                     nombre = input("Nombre del producto: ")
                     precio = float(input("Precio: "))
-                    idcategoria = int(input("ID Categoría (numérico, puede ser 0 si no aplica): "))
+                    stock = int(input("Cantidad en stock: "))
+                    idcategoria = input("ID Categoría (numérico, puede ser 0 si no aplica): ")
                     nombre_categoria = input("Nombre de la categoría: ")
 
+
                     categoria = Categoria(idcategoria, nombre_categoria)
-                    producto = Producto(idproducto, categoria, nombre, precio)
+                    producto = Producto(idproducto, categoria, nombre, precio, stock)
 
                     inventario.agregar_producto(producto)
 
@@ -155,6 +174,10 @@ class menu:
                 empleados.menu_empleados()
 
             case "4":
+                compra.menu_compras()
+
+            case "5":
+                print("GRACIAS POR USAR EL PROGRAMA...CHAUUU...ASTA LUEGO...POR LA SOMBRITA...")
                 break
 
             case _:
