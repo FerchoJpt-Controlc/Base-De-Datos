@@ -1,5 +1,6 @@
 import compra
 import empleados
+import proveidores
 
 from abc import ABC, abstractmethod
 
@@ -143,7 +144,8 @@ class menu:
         print("2. Mostrar inventario")
         print("3. Empleados")
         print("4. Compras")
-        print("5. Salir")
+        print("5. Mostrar proveedores")
+        print("6. Salir")
 
         opcion = input("Seleccione una opcion: ")
 
@@ -175,6 +177,9 @@ class menu:
 
             case "4":
                 compra.menu_compras()
+
+            case "5":
+                proveidores.mostrar_proveedores()
 
             case "5":
                 print("GRACIAS POR USAR EL PROGRAMA...CHAUUU...ASTA LUEGO...POR LA SOMBRITA...")
